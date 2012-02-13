@@ -1,0 +1,14 @@
+# Mac file system.
+.DS_Store
+
+# Python temporary files.
+*.pyc
+*.pyo
+
+# emacs temporary files.
+*~
+.#*
+
+# generated files
+
+genfiles/
