@@ -12,3 +12,10 @@
 # generated files
 
 genfiles/
+
+# Binary files
+bin/
+.settings/
+
+# Eclipse specific files that aren't needed
+proguard.cfg
