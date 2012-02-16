@@ -1,61 +1,63 @@
 <!DOCTYPE html> 
 <html> 
 	<head>
-	
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<title>MOP</title>
 		
 		<link rel="stylesheet" href="css/jquery.mobile.css" />
 
 		<script type="text/javascript" src="js/phonegap.js"></script>
-		
 		<script src="http://www.google.com/jsapi?key=ABQIAAAA7Asvttu3qWLuIBBJ9SPFFBQ-6jU3-FZQOgIZBDafzQ8CjDa04hQRryc7Vtg5LqUnppTdyV4iv1mP_w" type="text/javascript"></script>        
         <script type="text/javascript">
 			google.load("maps", "3", {'other_params':'sensor=true'});
 			google.load("jquery", "1.5");
 		</script>
-		<script type="text/javascript" src="js/jquery.mobile.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery.mobile.min.js"></script>
 		<script type="text/javascript" src="js/jquery.ui.map.min.js"></script>
+		<script type="text/javascript" src="js/app.js"></script>
 	</head> 
 
-	<body> 
-
-		<div id="gmap-2" data-role="page">
-
-			<script type="text/javascript">
-				$('#gmap-2').live("pageshow", function() {
-					$('#map_canvas').gmap({'center': getLatLng(), 'callback': function() {
-							$('#map_canvas').gmap('addMarker', {'position': getLatLng(), 'animation': google.maps.Animation.DROP, 'title': 'Hello world!'}, function(map, marker) {
-								$('#map_canvas').gmap('addInfoWindow', { 'position':marker.getPosition(), 'content': 'Hello world!' }, function(iw) { 
-									$(marker).click(function() { 
-											iw.open(map, marker); 
-											map.panTo(marker.getPosition()); 
-									}); 
-								}); 
-							});
-						}
-					});
-					function getLatLng() {
-						if ( google.loader.ClientLocation != null ) {
-							return new google.maps.LatLng(google.loader.ClientLocation.latitude, google.loader.ClientLocation.longitude);	
-						}
-						return new google.maps.LatLng(59.3426606750, 18.0736160278);
-					}
-				});
-			</script>
+	<body>
+		<!-- 
+			Initial page. When we load the app, we will check to see if the user is logged in.
+			If yes, skip this page, otherwise, show login screen 
+		-->
+		<div id="start" data-role="page">
+			<div data-role="header">
+				<h1>Sell My Spot</h1>
+			</div>
 			
-			<div data-role="content"> 
-                
-				<div class="ui-bar-c ui-corner-all ui-shadow" style="padding:1em;">
-					<div id="map_canvas" style="height:300px;"></div>
+			<div data-role="content">
+			
+				<h1>Welcome to SellMySpot</h1>
+				
+				<p>
+					Please log into your account
+				</p>
+				
+				<div data-role="fieldcontain">
+					<label for="start_username">Username:</label>
+					<input type="text" name="start_username" id="start_username" value="" />
+				</div>
+				<div data-role="fieldcontain">
+					<label for="start_password">Password:</label>
+					<input type="password" name="start_password" id="start_password" value="" />
+				</div>
+				<div class="ui-grid-a">
+					<div class="ui-block-a"><button id="start_login" name="start_login" type="submit">Login</button></div>
+					<div class="ui-block-b"><button id="start_forgot" name="start_forgot" type="submit">Forgot</button></div>
+				</div>
+					
 				</div>
 			</div>
 			
-			<div data-role="footer" data-theme="a">
-				<h3>Need help?</h3>
-				<p class="more">Please feel free to ask for help in the <a data-ajax="false" href="http://groups.google.com/group/jquery-ui-map-discuss">forum</a></p>
 			</div>
 			
-		</div>
+			<div data-role="footer">
+			
+			</div>
+		</div>		
 	</body>
 	
 </html>
