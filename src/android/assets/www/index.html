@@ -12,7 +12,8 @@
 			google.load("maps", "3", {'other_params':'sensor=true'});
 			google.load("jquery", "1.5");
 		</script>
-		<script type="text/javascript" src="js/jquery.mobile.js"></script>
+		<script type="text/javascript" src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery.mobile.min.js"></script>
 		<script type="text/javascript" src="js/jquery.ui.map.min.js"></script>
 		<script type="text/javascript" src="js/app.js"></script>
 	</head> 
@@ -28,6 +29,28 @@
 			</div>
 			
 			<div data-role="content">
+			
+				<h1>Welcome to SellMySpot</h1>
+				
+				<p>
+					Please log into your account
+				</p>
+				
+				<div data-role="fieldcontain">
+					<label for="start_username">Username:</label>
+					<input type="text" name="start_username" id="start_username" value="" />
+				</div>
+				<div data-role="fieldcontain">
+					<label for="start_password">Password:</label>
+					<input type="password" name="start_password" id="start_password" value="" />
+				</div>
+				<div class="ui-grid-a">
+					<div class="ui-block-a"><button id="start_login" name="start_login" type="submit">Login</button></div>
+					<div class="ui-block-b"><button id="start_forgot" name="start_forgot" type="submit">Forgot</button></div>
+				</div>
+					
+				</div>
+			</div>
 			
 			</div>
 			
