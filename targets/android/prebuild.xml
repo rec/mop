@@ -1,0 +1,10 @@
+<project name="prebuilder" default="init">
+	<description>Copies appropriate files into assets directory for building</description>
+	
+	<target name="init">
+		<delete dir="assets/www" />
+		<copy todir="assets/www">
+			<fileset dir="../../src/html" />
+		</copy>
+	</target>
+</project>
