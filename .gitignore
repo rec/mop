@@ -12,7 +12,7 @@
 # generated files
 
 genfiles/
-src/android/assets/*
+targets/android/assets/*
 
 # Binary files
 bin/

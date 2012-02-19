@@ -4,7 +4,7 @@
 	<target name="init">
 		<delete dir="assets/www" />
 		<copy todir="assets/www">
-			<fileset dir="../www" />
+			<fileset dir="../../src/html" />
 		</copy>
 	</target>
 </project>
