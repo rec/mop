@@ -1,0 +1,9 @@
+package mop.store;
+
+option java_outer_classname = "PhoneNumberProto";
+
+message PhoneNumber {
+  optional string country = 1;
+  optional string area_code = 2;
+  optional string local_number = 3;
+};

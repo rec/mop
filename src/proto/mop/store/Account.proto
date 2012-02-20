@@ -1,7 +1,9 @@
 package mop.store;
 
-import "mop/store/Person.proto";
 import "mop/store/PaymentMethod.proto";
+import "mop/store/Person.proto";
+import "mop/store/PhoneNumber.proto";
+import "mop/store/PostalAddress.proto";
 import "mop/store/Vehicle.proto";
 
 option java_outer_classname = "AccountProto";
@@ -23,4 +25,7 @@ message Account {
 
   // Any methods for giving or receiving money.
   repeated PaymentMethod payment_method = 4;
+
+  optional PhoneNumber phone_number = 5;
+  optional PostalAddress postal_address = 6;
 };

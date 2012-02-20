@@ -1,5 +1,6 @@
 package mop.store;
 
+import "mop/store/PhoneNumber.proto";
 import "mop/store/PostalAddress.proto";
 
 option java_outer_classname = "PaymentMethodProto";
@@ -19,6 +20,7 @@ message PaymentMethod {
   optional Type type = 1;
 
   optional string account_name = 2;
-  optional string account_id = 3;
+  optional string account_number = 3;
   optional PostalAddress billing_address = 4;
+  optional PhoneNumber billing_phone_number = 5;
 };
