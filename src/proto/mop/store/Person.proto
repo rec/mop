@@ -1,0 +1,10 @@
+package mop.store;
+
+// A Person describes a "natural person" who will be taking one side or another
+// of a Parking Transaction.
+
+option java_outer_classname = "PersonProto";
+
+message Person {
+
+};
