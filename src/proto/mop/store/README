@@ -1,0 +1,2 @@
+This package contains data definitions for all data that is persistent in the
+App Engine's Datastore.
