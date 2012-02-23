@@ -1,4 +1,4 @@
-package mop.store;
+"""package mop.store;
 
 import "mop/store/PaymentMethod.proto";
 import "mop/store/Person.proto";
@@ -29,3 +29,4 @@ message Account {
   optional PhoneNumber phone_number = 5;
   optional PostalAddress postal_address = 6;
 };
+"""

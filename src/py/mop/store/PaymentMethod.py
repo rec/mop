@@ -1,3 +1,4 @@
+"""
 package mop.store;
 
 import "mop/store/PhoneNumber.proto";
@@ -24,3 +25,4 @@ message PaymentMethod {
   optional PostalAddress billing_address = 4;
   optional PhoneNumber billing_phone_number = 5;
 };
+"""

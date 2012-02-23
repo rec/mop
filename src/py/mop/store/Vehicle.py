@@ -1,11 +1,6 @@
-package mop.store;
+"""import
 
-option java_outer_classname = "VehicleProto";
-
-// A Vehicle is any transportation device that can enter into a Parking
-// Transaction.
-
-message Vehicle {
+class Vehicle(
   enum Type {
     NONE = 0;
     BICYCLE = 1;
@@ -34,3 +29,4 @@ message Vehicle {
   // We might legally have to request this in some places.
   optional string registration_number = 8;
 };
+"""
