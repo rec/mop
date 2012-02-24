@@ -4,8 +4,11 @@ runtime: python27
 api_version: 1
 threadsafe: true
 
+libraries:
+- name: django
+  version: latest
+
 handlers:
 
-# Serve the application at the root directory.
-- url: /.*
-  script: tests.app
+- url: /test.*
+  script: gaeunit.app
