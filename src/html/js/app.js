@@ -59,9 +59,9 @@ var StartController = function() {
 	self.btnLoginClicked = function(event) {
 		event.preventDefault();
 		
-		if (self.validateLogin()) {
+		//if (self.validateLogin()) {
 			self.login();
-		}
+		//}
 	};
 	
 	self.validateLogin = function() {
@@ -94,17 +94,15 @@ var MapController = function() {
 	var self = this;
 	this.mapCanvas = $("#map").find("#map-canvas");
 	
-	this.initializeView = function() {
-		this.mapCanvas.gmap();
-		
-		if (typeof phonegap !== "undefined") {
-			navigator.geolocation.getCurrentPosition(self.centerMap, function(error) { }); 
+	this.initializeView = function() {		
+		if (typeof navigator !== "undefined") {
+			navigator.geolocation.getCurrentPosition(self.centerMap, function(error) { alert("Megaderp"); }); 
 		}
 	};
 	
 	this.centerMap = function(position) {
 		var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-		this.mapCanvas.gmap({"center": pos});
+		self.mapCanvas.gmap({"center": pos});
 	};
 };
 
