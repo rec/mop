@@ -53,12 +53,10 @@ var StartController = function() {
 	self.btnLogin = $("#start").find("#login");
 	
 	this.initializeView = function() {
-		console.log("initializing");
 		self.btnLogin.click(self.btnLoginClicked);
 	};
 	
 	self.btnLoginClicked = function(event) {
-		alert("Logging in");
 		event.preventDefault();
 		
 		if (self.validateLogin()) {
