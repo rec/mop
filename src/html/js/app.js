@@ -13,13 +13,13 @@ $("#dashboard").live("pageinit", function(event) {
 var StartController = function() {
 	var self = this;
 	
-	var page = $("#start");
-	var txtUsername = $("#start").find("#username");
-	var txtPassword = $("#start").find("#password");
-	var btnLogin = $("#start").find("#login");
+	self.page = $("#start");
+	self.txtUsername = $("#start").find("#username");
+	self.txtPassword = $("#start").find("#password");
+	self.btnLogin = $("#start").find("#login");
 	
 	self.initialize = function() {
-		btnLogin.click(self.btnLoginClicked);
+		self.btnLogin.click(self.btnLoginClicked);
 	};
 	
 	self.btnLoginClicked = function(event) {
@@ -32,18 +32,18 @@ var StartController = function() {
 	
 	self.validateLogin = function() {
 		var valid = true;
-		if (txtUsername.val().length == 0) {
-			txtUsername.css("border-color", "#f00");
+		if (self.txtUsername.val().length == 0) {
+			self.txtUsername.css("border-color", "#f00");
 			valid = false;
 		} else {
-			txtUsername.css("border-color", "");
+			self.txtUsername.css("border-color", "");
 		}
 			
-		if (txtPassword.val().length == 0) {
-			txtPassword.css("border-color", "#f00");
+		if (self.txtPassword.val().length == 0) {
+			self.txtPassword.css("border-color", "#f00");
 			valid = false;
 		} else {
-			txtPassword.css("border-color", "");
+			self.txtPassword.css("border-color", "");
 		}
 		
 		return valid;
