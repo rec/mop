@@ -1,4 +1,4 @@
-application: test
+application: tests
 version: 1
 runtime: python27
 api_version: 1
@@ -8,4 +8,4 @@ handlers:
 
 # Serve the application at the root directory.
 - url: /.*
-  script: test.app
+  script: tests.app
