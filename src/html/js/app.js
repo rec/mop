@@ -16,18 +16,31 @@ var User = function() {
 };
 
 //Initialize application pages
+window.addEventListener('load', function () {
+		document.addEventListener('deviceready', function () {
+				alert("PhoneGap is now loaded!");
+		}, false);
+}, false);
 
 $("#start").live("pageinit", function(event) {
 	if (Application.currentUser.userState === UserState.LOGGED_IN)
 		$.mobile.changePage("#dashboard");
 
 	var controller = new StartController();
-	controller.initialize();
+	controller.initializeView();
 });
 
 $("#dashboard").live("pageinit", function(event) {
 	if (Application.currentUser.userState !== UserState.LOGGED_IN)
 		$.mobile.changePage("#start");
+	});
+
+$("#map").live("pageinit", function(event) {
+	if (Application.currentUser.userState !== UserState.LOGGED_IN)
+		$.mobile.changePage("#start");
+	
+	var controller = new MapController();
+	controller.initializeView();
 });
 
 //Controller to handle the startup page
@@ -39,11 +52,13 @@ var StartController = function() {
 	self.txtPassword = $("#start").find("#password");
 	self.btnLogin = $("#start").find("#login");
 	
-	self.initialize = function() {
+	this.initializeView = function() {
+		console.log("initializing");
 		self.btnLogin.click(self.btnLoginClicked);
 	};
 	
 	self.btnLoginClicked = function(event) {
+		alert("Logging in");
 		event.preventDefault();
 		
 		if (self.validateLogin()) {
@@ -74,6 +89,24 @@ var StartController = function() {
 		//TODO: Authenticate with server
 		Application.currentUser.userState = UserState.LOGGED_IN;
 		$.mobile.changePage($("#dashboard"));
+	};
+};
+
+var MapController = function() {
+	var self = this;
+	this.mapCanvas = $("#map").find("#map-canvas");
+	
+	this.initializeView = function() {
+		this.mapCanvas.gmap();
+		
+		if (typeof phonegap !== "undefined") {
+			navigator.geolocation.getCurrentPosition(self.centerMap, function(error) { }); 
+		}
+	};
+	
+	this.centerMap = function(position) {
+		var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+		this.mapCanvas.gmap({"center": pos});
 	};
 };
 
