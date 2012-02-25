@@ -4,7 +4,8 @@ from google.appengine.ext import testbed
 
 import testCase
 
-from mop.store import PhoneNumber
+from mop.model import PhoneNumber
+from mop.model import PostalAddress
 
 class DemoTestCase(testCase.TestCase):
   def _initStubs(self, testbed):
@@ -18,6 +19,9 @@ class DemoTestCase(testCase.TestCase):
 
   def testPhoneNumber(self):
     self.doTestClass(PhoneNumber.PhoneNumber, country='USA')
+
+  def testPostalAddress(self):
+    self.doTestClass(PostalAddress.PostalAddress, unit_number='1R')
 
 if __name__ == '__main__':
     unittest.main()
