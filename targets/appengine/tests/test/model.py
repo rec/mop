@@ -6,6 +6,7 @@ import testCase
 
 from mop.model import PhoneNumber
 from mop.model import PostalAddress
+from mop.model import Vehicle
 
 class DemoTestCase(testCase.TestCase):
   def _initStubs(self, testbed):
@@ -22,6 +23,9 @@ class DemoTestCase(testCase.TestCase):
 
   def testPostalAddress(self):
     self.doTestClass(PostalAddress.PostalAddress, unit_number='1R')
+
+  def testVehicle(self):
+    self.doTestClass(Vehicle.Vehicle, category='sedan')
 
 if __name__ == '__main__':
     unittest.main()
