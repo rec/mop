@@ -4,6 +4,7 @@ from google.appengine.ext import testbed
 
 import testCase
 
+from mop.model import Person
 from mop.model import PhoneNumber
 from mop.model import PostalAddress
 from mop.model import Vehicle
@@ -26,6 +27,10 @@ class DemoTestCase(testCase.TestCase):
 
   def testVehicle(self):
     self.doTestClass(Vehicle.Vehicle, category='sedan')
+
+  def testPerson(self):
+    address = PostalAddress.PostalAddress(unit_number='1R')
+    self.doTestClass(Person.Person, drivers_license_issuer=address)
 
 if __name__ == '__main__':
     unittest.main()
