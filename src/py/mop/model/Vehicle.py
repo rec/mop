@@ -8,4 +8,4 @@ class Vehicle(ndb.Model):
   model = ndb.StringProperty()
   year = ndb.IntegerProperty()
   description = ndb.StringProperty()
-  registration_number = ndb.StringProperty()
+  registrationNumber = ndb.StringProperty()

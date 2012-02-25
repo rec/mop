@@ -11,15 +11,8 @@ index for them.
 
 class Person(ndb.Model):
   prefix = ndb.StringProperty()
-  drivers_license_issuer = ndb.StructuredProperty(PostalAddress.PostalAddress)
-
-"""
-class Person(ndb.Model):
-  string prefix = 1;  # Mr.
-  repeated string name = 2;  # John Wellington Wells
-  optional string suffix = 3;  # Esq.
-
-  optional string drivers_license = 4;
-  optional PostalAddress drivers_license_issuer = 5;
-};
-"""
+  driversLicenseIssuer = ndb.StructuredProperty(PostalAddress.PostalAddress)
+  first_names = ndb.StringProperty()
+  last = ndb.StringProperty()
+  suffix = ndb.StringProperty()
+  driversLicense = ndb.StringProperty()
