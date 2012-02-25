@@ -3,7 +3,6 @@ import time
 
 from google.appengine.api import datastore_types
 
-
 TYPE_FUNCTIONS = {}
 
 def getTypeFunction(value)
