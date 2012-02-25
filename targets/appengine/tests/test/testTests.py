@@ -6,18 +6,16 @@ import testCase
 
 from mop.store import PhoneNumber
 
-class TestEntityGroupRoot(ndb.Model):
-  """Entity group root"""
-  pass
-
 class DemoTestCase(testCase.TestCase):
   def _initStubs(self, testbed):
     testbed.init_datastore_v3_stub()
     testbed.init_memcache_stub()
 
   def testInsertEntity(self):
-    PhoneNumber.PhoneNumber().put()
-    # self.assertEqual(1, len(TestModel.all().fetch(2)))
+    number = PhoneNumber.PhoneNumber(country='USA')
+    key = number.put()
+    number2 = key.get()
+    self.assertEqual(number, number2)
 
 if __name__ == '__main__':
     unittest.main()
