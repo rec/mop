@@ -11,11 +11,13 @@ class DemoTestCase(testCase.TestCase):
     testbed.init_datastore_v3_stub()
     testbed.init_memcache_stub()
 
-  def testInsertEntity(self):
-    number = PhoneNumber.PhoneNumber(country='USA')
-    key = number.put()
-    number2 = key.get()
+  def doTestClass(self, constructor, **kw):
+    number = constructor(**kw)
+    number2 = number.put().get()
     self.assertEqual(number, number2)
+
+  def testPhoneNumber(self):
+    self.doTestClass(PhoneNumber.PhoneNumber, country='USA')
 
 if __name__ == '__main__':
     unittest.main()
