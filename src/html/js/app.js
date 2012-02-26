@@ -18,22 +18,8 @@ var User = function() {
 //Initialize application pages
 window.addEventListener('load', function () {
 		document.addEventListener('deviceready', function () {
-				alert("PhoneGap is now loaded!");
 		}, false);
 }, false);
-
-$("#start").live("pageinit", function(event) {
-	if (Application.currentUser.userState === UserState.LOGGED_IN)
-		$.mobile.changePage("#dashboard");
-
-	var controller = new StartController();
-	controller.initializeView();
-});
-
-$("#dashboard").live("pageinit", function(event) {
-	if (Application.currentUser.userState !== UserState.LOGGED_IN)
-		$.mobile.changePage("#start");
-	});
 
 $("#map").live("pageinit", function(event) {
 	if (Application.currentUser.userState !== UserState.LOGGED_IN)
@@ -47,24 +33,29 @@ $("#map").live("pageinit", function(event) {
 var StartController = function() {
 	var self = this;
 	
-	self.page = $("#start");
-	self.txtUsername = $("#start").find("#username");
-	self.txtPassword = $("#start").find("#password");
-	self.btnLogin = $("#start").find("#login");
+	this.page = Pages.Start;
+	this.txtUsername = this.page.find("#username");
+	this.txtPassword = this.page.find("#password");
+	this.btnLogin = this.page.find("#login");
+  this.btnForgot = this.page.find("#forgot");
 	
 	this.initializeView = function() {
 		self.btnLogin.click(self.btnLoginClicked);
+    self.btnForgot.click(self.btnForgotClicked);
 	};
 	
-	self.btnLoginClicked = function(event) {
+	this.btnLoginClicked = function(event) {
 		event.preventDefault();
-		
-		//if (self.validateLogin()) {
-			self.login();
-		//}
+    //TODO: Add back in login validation
+		self.login();
 	};
 	
-	self.validateLogin = function() {
+  this.btnForgotClicked = function(event) {
+    event.preventDefault();
+    $.mobile.changePage(Pages.MissingPassword);
+  };
+  
+	this.validateLogin = function() {
 		var valid = true;
 		if (self.txtUsername.val().length === 0) {
 			self.txtUsername.css("border-color", "#f00");
@@ -83,11 +74,35 @@ var StartController = function() {
 		return valid;
 	};
 	
-	self.login = function() {
+	this.login = function() {
 		//TODO: Authenticate with server
 		Application.currentUser.userState = UserState.LOGGED_IN;
-		$.mobile.changePage($("#dashboard"));
+		$.mobile.changePage(Pages.Main);
 	};
+};
+
+var MissingPasswordController = function() {
+  var self = this;
+  
+  this.page = Pages.MissingPassword;
+  this.username = this.page.find("#username");
+  this.btnReset = this.page.find("#reset");
+  this.btnCancel = this.page.find("#cancel");
+  
+  this.initializeView = function() {
+    self.btnReset.click(self.btnResetClicked);
+    
+    self.btnCancel.click(self.btnCancelClicked);
+  };
+  
+  this.btnResetClicked = function(event) {
+    //TODO: Send reset password request
+    event.preventDefault();
+  };
+  
+  this.btnCancelClicked = function(event) {
+    $.mobile.changePage(Pages.Start);
+  }
 };
 
 var MapController = function() {
@@ -105,6 +120,34 @@ var MapController = function() {
 		self.mapCanvas.gmap({"center": pos});
 	};
 };
+
+var Pages = {};
+$(document).ready(function() {
+  Pages.Start = $("#start");
+  Pages.Main = $("#main");
+  Pages.MissingPassword = $("#missing-password");
+});
+
+$("#start").live("pageinit", function(event) {  
+  Pages.Start = $("#start");  
+  if (Application.currentUser.userState === UserState.LOGGED_IN)
+    $.mobile.changePage(Pages.Main);
+
+  var controller = new StartController();
+  controller.initializeView();
+});
+
+$("#main").live("pageinit", function(event) {
+  Pages.Main = $("#main");
+  if (Application.currentUser.userState !== UserState.LOGGED_IN)
+    $.mobile.changePage(Pages.Start);
+});
+
+$("#missing-password").live("pageinit", function(event) {
+  Pages.MissingPassword = $("#missing-password");
+  var controller = new MissingPasswordController();
+  controller.initializeView();
+});
 
 var UserState = {
 	NONE: {value: 0, name: "No State"},

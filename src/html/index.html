@@ -48,10 +48,6 @@
           <div class="ui-block-a"><button id="login" name="login" type="submit">Login</button></div>
           <div class="ui-block-b"><button id="forgot" name="forgot" type="submit">Forgot</button></div>
         </div>
-          
-        </div>
-      </div>
-      
       </div>
       
       <div data-role="footer">
@@ -59,7 +55,35 @@
       </div>
     </div>
     
-    <div id="dashboard" data-role="page">
+    <div id="missing-password" data-role="page">
+      <div data-role="header">
+        <h1>Sell My Spot</h1>
+      </div>
+      
+      <div data-role="content">
+        <h1>Missing Password</h1>
+        
+        <p>
+          Enter your username to request a password reset
+        </p>
+      
+        <div data-role="fieldcontain">
+          <label for="username">Username:</label>
+          <input type="text" name="username" id="username" value="" />
+        </div>
+        
+        <div class="ui-grid-a">
+          <div class="ui-block-a"><button id="reset" name="reset" type="submit">Reset</button></div>
+          <div class="ui-block-b"><button id="cancel" name="cancel" type="submit">Cancel</button></div>
+        </div>
+      </div>
+      
+      <div data-role="footer">
+      
+      </div>
+    </div>
+    
+    <div id="main" data-role="page">
       <div data-role="header">
         <h1>Sell My Spot</h1>
       </div>
