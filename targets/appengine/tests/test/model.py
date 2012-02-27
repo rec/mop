@@ -1,7 +1,3 @@
-from google.appengine.api import memcache
-from google.appengine.ext import ndb
-from google.appengine.ext import testbed
-
 import testCase
 
 from mop.model import Account
@@ -11,11 +7,7 @@ from mop.model import PhoneNumber
 from mop.model import PostalAddress
 from mop.model import Vehicle
 
-class DemoTestCase(testCase.TestCase):
-  def _initStubs(self, testbed):
-    testbed.init_datastore_v3_stub()
-    testbed.init_memcache_stub()
-
+class ModelTestCase(testCase.TestCase):
   def doTestClass(self, constructor, **kw):
     number = constructor(**kw)
     number2 = number.put().get()
