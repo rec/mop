@@ -33,33 +33,23 @@ class ToDictTestCase(testCase.TestCase):
     d = modelDict.toDict(number)
     self.assertEqual(d, PHONE_DICT)
 
-
   def testComplex(self):
-    p = {'country':'USA',
-         'areaCode': '212',
-         'localNumber': '5551212'}
     m = {'category': 'VISA',
-         'billingPhoneNumber': p}
-    phone = PhoneNumber.PhoneNumber(**p)
+         'billingPhoneNumber': PHONE_DICT}
+    phone = PhoneNumber.PhoneNumber(**PHONE_DICT)
     m2 = {'category': 'VISA',
          'billingPhoneNumber': phone}
     pay = PaymentMethod.PaymentMethod(**m2)
     d = modelDict.toDict(pay)
     self.assertEqual(d, {'category': 'VISA',
-                         'billingPhoneNumber': {'areaCode': '212',
-                                                'country': 'USA',
-                                                'localNumber': '5551212'}})
+                         'billingPhoneNumber': PHONE_DICT})
 
 
 class ToModelTestCase(testCase.TestCase):
   def testSimple(self):
     number = PhoneNumber.PhoneNumber()
-    modelDict.toModel(number, {'country':'USA',
-                               'areaCode': '212',
-                              'localNumber': '5551212'})
-    self.assertEqual(number, PhoneNumber.PhoneNumber(country='USA',
-                                                     areaCode='212',
-                                                     localNumber='5551212'))
+    modelDict.toModel(number, PHONE_DICT)
+    self.assertEqual(number, PhoneNumber.PhoneNumber(**PHONE_DICT))
 
   def testComplex(self):
     number = PhoneNumber.PhoneNumber()
