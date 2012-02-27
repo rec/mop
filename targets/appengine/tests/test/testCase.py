@@ -12,4 +12,4 @@ class TestCase(unittest.TestCase):
     self.testbed.deactivate()
 
   def _initStubs(self, testbed):
-    pass
+    testbed.init_datastore_v3_stub()

@@ -1,11 +1,44 @@
+import copy
 import datetime
 import time
 
 from google.appengine.api import datastore_types
+from google.appengine.ext import ndb
+
+def removeNones(d):
+  toDel = []
+  deletes = 0
+  for k, v in d.iteritems():
+    if v is None:
+      toDel.append(k)
+
+    elif isinstance(v, dict):
+      removeNones(v)
+
+  for k in toDel:
+    del d[k]
+
+
+def toDict(model):
+  return removeNones(model.to_dict())
+
+def fromDict(model, json):
+  modelType = type(model)
+  for key, value in json.iteritems():
+    modelValue = value
+    modelProperty = getattr(modelType, key)
+    if isinstance(modelProperty, ndb.StructuredProperty):
+      modelValue = modelProperty._modelclass()
+      fromDict(modelValue, value)
+
+    setattr(model, key, submodel)
+
+
+"""
 
 TYPE_FUNCTIONS = {}
 
-def getTypeFunction(value)
+def getTypeFunction(value):
   f = TYPE_FUNCTIONS.get(type(value), None)
   if f:
     return f
@@ -42,8 +75,8 @@ def imToJSON(value):
 
 TYPE_FUNCTIONS = {
   ndb.Model: modelToJSON,
-  datastore_types.GeoPt: geoPtToJSON
-  datastore_types.IM: imToJSON
+  datastore_types.GeoPt: geoPtToJSON,
+  datastore_types.IM: imToJSON,
   datetime.date: datetimeToJSON,
 
   int: identity,
@@ -55,3 +88,4 @@ TYPE_FUNCTIONS = {
   list: identity,
   type(None): identity,
   }
+"""
