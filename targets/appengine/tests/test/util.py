@@ -7,30 +7,35 @@ from mop.model import PhoneNumber
 from mop.util import modelDict
 
 
-class UtilTestCase(testCase.TestCase):
-  def testPhoneNumber(self):
-    p = {'country':'USA',
-         'areaCode': '212',
-         'localNumber': '5551212'}
-    number = PhoneNumber.PhoneNumber(**p)
-    self.assertEqual(p, number.to_dict())
-
-  def testRemoveNones(self):
+class RemoveNonesTestCase(testCase.TestCase):
+  def testSimple(self):
     d = {'foo' : 1, 'bar': None}
     modelDict.removeNones(d)
     self.assertEqual(d, {'foo' : 1})
 
-  def testRemoveNones2(self):
+  def testSubdict(self):
     d = {'foo' : {'bar': None}}
     modelDict.removeNones(d)
     self.assertEqual(d, {'foo' : {}})
 
-  def XtestRemoveNones(self):
+  def testComplex(self):
     d = {'foo' : {'bar': None, 'baz': False, 'bang': 0},
          'bing': None}
     r = modelDict.removeNones(d)
-    self.assertEqual(r, 1)
     self.assertEqual(d, {'foo' : {'baz': False, 'bang': 0}})
+
+
+class ToDictTestCase(testCase.TestCase):
+  def testSimple(self):
+    number = PhoneNumber.PhoneNumber(country='USA',
+                                     areaCode='212',
+                                     localNumber='5551212')
+    d = modelDict.toDict(number)
+    self.assertEqual(d, {'country':'USA',
+                         'areaCode': '212',
+                         'localNumber': '5551212'})
+
+
 
 """
     p = {'country':'USA',

@@ -20,7 +20,10 @@ def removeNones(d):
 
 
 def toDict(model):
-  return removeNones(model.to_dict())
+  d = model.to_dict()
+  removeNones(d)
+  return d
+
 
 def fromDict(model, json):
   modelType = type(model)
