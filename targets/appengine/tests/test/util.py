@@ -6,6 +6,8 @@ from mop.model import PaymentMethod
 from mop.model import PhoneNumber
 from mop.util import modelDict
 
+PHONE_DICT = {'country':'USA', 'areaCode': '212', 'localNumber': '5551212'}
+
 
 class RemoveNonesTestCase(testCase.TestCase):
   def testSimple(self):
@@ -27,13 +29,9 @@ class RemoveNonesTestCase(testCase.TestCase):
 
 class ToDictTestCase(testCase.TestCase):
   def testSimple(self):
-    number = PhoneNumber.PhoneNumber(country='USA',
-                                     areaCode='212',
-                                     localNumber='5551212')
+    number = PhoneNumber.PhoneNumber(**PHONE_DICT)
     d = modelDict.toDict(number)
-    self.assertEqual(d, {'country':'USA',
-                         'areaCode': '212',
-                         'localNumber': '5551212'})
+    self.assertEqual(d, PHONE_DICT)
 
 
   def testComplex(self):
@@ -57,7 +55,16 @@ class ToModelTestCase(testCase.TestCase):
   def testSimple(self):
     number = PhoneNumber.PhoneNumber()
     modelDict.toModel(number, {'country':'USA',
-                         'areaCode': '212',
+                               'areaCode': '212',
+                              'localNumber': '5551212'})
+    self.assertEqual(number, PhoneNumber.PhoneNumber(country='USA',
+                                                     areaCode='212',
+                                                     localNumber='5551212'))
+
+  def testComplex(self):
+    number = PhoneNumber.PhoneNumber()
+    modelDict.toModel(number, {'country':'USA',
+                               'areaCode': '212',
                          'localNumber': '5551212'})
     self.assertEqual(number, PhoneNumber.PhoneNumber(country='USA',
                                                      areaCode='212',
