@@ -2,14 +2,27 @@ var ApplicationController = function() {
 	var self = this;
 	
 	this.currentUser = new User();
+  
+  this.updateView = function() {
+    switch (self.currentUser.transactionState) {
+      case TransactionState.LOCATING:
+        $.mobile.changePage(Pages.Locating);
+        break;
+      default:
+        $.mobile.changePage(Pages.Start);
+        break;
+    };
+  };
 };
+
+var currentController = null;
 
 var User = function() {
 	var self = this;
 	
 	this.userState = UserState.NONE;
 	this.bidAskState = BidAskState.NONE;
-	this.negotiationState = NegotiationState.NONE;
+	this.transactionState = TransactionState.NONE;
 	this.paymentState = PaymentState.NONE;
 	
 	this.loggedIn = false;
@@ -105,20 +118,56 @@ var MissingPasswordController = function() {
   }
 };
 
-var MapController = function() {
+var LocatingController = function() {
 	var self = this;
-	this.mapCanvas = $("#map").find("#map-canvas");
+  this.page = Pages.Locating;
+	this.mapCanvas = this.page.find("#map-canvas");
 	
 	this.initializeView = function() {		
-		if (typeof navigator !== "undefined") {
-			navigator.geolocation.getCurrentPosition(self.centerMap, function(error) { alert("Megaderp"); }); 
-		}
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(self.centerMap, self.locatingError); 
+		} else {
+      alert("Can't get location");
+    }
 	};
 	
 	this.centerMap = function(position) {
 		var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
 		self.mapCanvas.gmap({"center": pos});
 	};
+  
+  this.locatingError = function(msg) {
+    self.mapCanvas.html(typeof msg == 'string' ? msg : "failed");
+  };
+};
+
+var MainController = function() {
+  var self = this;
+  
+  this.page = Pages.Main;
+  this.btnBid = this.page.find("#bid");
+  this.btnAsk = this.page.find("#ask");
+  
+  this.initializeView = function() {
+    self.btnBid.click(self.btnBidClicked);
+    self.btnAsk.click(self.btnAskClicked);
+  };
+  
+  this.btnBidClicked = function(event) {
+    event.preventDefault();
+    Application.currentUser.bidAskState = BidAskState.BID;
+    Application.currentUser.transactionState = TransactionState.LOCATING;
+    
+    Application.updateView();
+  };
+  
+  this.btnAskClicked = function(event) {
+    event.preventDefault();
+    Application.currentUser.bidAskState = BidAskState.ASK;
+    Application.currentUser.transactionState = TransactionState.LOCATING;
+    
+    Application.updateView();
+  };
 };
 
 var Pages = {};
@@ -126,6 +175,7 @@ $(document).ready(function() {
   Pages.Start = $("#start");
   Pages.Main = $("#main");
   Pages.MissingPassword = $("#missing-password");
+  Pages.Locating = $("#locating");
 });
 
 $("#start").live("pageinit", function(event) {  
@@ -133,20 +183,29 @@ $("#start").live("pageinit", function(event) {
   if (Application.currentUser.userState === UserState.LOGGED_IN)
     $.mobile.changePage(Pages.Main);
 
-  var controller = new StartController();
-  controller.initializeView();
+  currentController = new StartController();
+  currentController.initializeView();
 });
 
 $("#main").live("pageinit", function(event) {
   Pages.Main = $("#main");
   if (Application.currentUser.userState !== UserState.LOGGED_IN)
     $.mobile.changePage(Pages.Start);
+    
+  currentController = new MainController();
+  currentController.initializeView();
 });
 
 $("#missing-password").live("pageinit", function(event) {
   Pages.MissingPassword = $("#missing-password");
-  var controller = new MissingPasswordController();
-  controller.initializeView();
+  currentController = new MissingPasswordController();
+  currentController.initializeView();
+});
+
+$("#locating").live("pageinit", function(event) {
+  Pages.Locating = $("#locating");
+  currentController = new LocatingController();
+  currentController.initializeView();
 });
 
 var UserState = {
@@ -165,8 +224,8 @@ var BidAskState = {
 	ASK: {value: 2, name: "User Offering To Sell Parking Space"}
 };
 
-var NegotiationState = {
-	NONE: {value: 0, name: "No Negotiation"},
+var TransactionState = {
+	NONE: {value: 0, name: "No Transaction"},
 	LOCATING: {value: 1, name: "User Is Setting Location For Offer"},
 	SETTING: {value: 2, name: "Location Set, Setting Price/Time"},
 	WAITING: {value: 3, name: "User Initiated Offer, No Replies"},
