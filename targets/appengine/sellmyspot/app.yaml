@@ -6,10 +6,6 @@ threadsafe: true
 
 handlers:
 
-# Serve static files from the /html subdirectory.
-- url: /html
-  static_dir: html
-
 # Serve the application at the root directory.
 - url: /.*
   script: sellmyspot.app
