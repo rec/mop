@@ -7,6 +7,7 @@ from mop.model import PhoneNumber
 from mop.util import modelDict
 
 PHONE_DICT = {'country':'USA', 'areaCode': '212', 'localNumber': '5551212'}
+PAY_DICT = {'category': 'VISA', 'billingPhoneNumber': PHONE_DICT}
 
 
 class RemoveNonesTestCase(testCase.TestCase):
@@ -34,15 +35,11 @@ class ToDictTestCase(testCase.TestCase):
     self.assertEqual(d, PHONE_DICT)
 
   def testComplex(self):
-    m = {'category': 'VISA',
-         'billingPhoneNumber': PHONE_DICT}
     phone = PhoneNumber.PhoneNumber(**PHONE_DICT)
-    m2 = {'category': 'VISA',
-         'billingPhoneNumber': phone}
-    pay = PaymentMethod.PaymentMethod(**m2)
+    pay = PaymentMethod.PaymentMethod(category='VISA',
+                                      billingPhoneNumber=phone)
     d = modelDict.toDict(pay)
-    self.assertEqual(d, {'category': 'VISA',
-                         'billingPhoneNumber': PHONE_DICT})
+    self.assertEqual(d, PAY_DICT)
 
 
 class ToModelTestCase(testCase.TestCase):
@@ -52,23 +49,9 @@ class ToModelTestCase(testCase.TestCase):
     self.assertEqual(number, PhoneNumber.PhoneNumber(**PHONE_DICT))
 
   def testComplex(self):
-    number = PhoneNumber.PhoneNumber()
-    modelDict.toModel(number, {'country':'USA',
-                               'areaCode': '212',
-                         'localNumber': '5551212'})
-    self.assertEqual(number, PhoneNumber.PhoneNumber(country='USA',
-                                                     areaCode='212',
-                                                     localNumber='5551212'))
-"""
-
-    d = pay.to_dict()
-    fixDict(d)
-    pay2 = PaymentMethod.PaymentMethod(billingPhoneNumber=phone)
-
-    s = type(pay2).billingPhoneNumber
-    s = isinstance(s, ndb.StructuredProperty) and 'yes' or 'no'
-    s = isinstance(pay2.billingPhoneNumber, ndb.Model) and 'yes' or 'no'
-
-    raise Exception(s)
-    #raise Exception(d['accountName']);
-"""
+    pay = PaymentMethod.PaymentMethod()
+    modelDict.toModel(pay, PAY_DICT)
+    phone = PhoneNumber.PhoneNumber(**PHONE_DICT)
+    self.assertEqual(pay,
+                     PaymentMethod.PaymentMethod(category='VISA',
+                                                 billingPhoneNumber=phone))
