@@ -36,8 +36,7 @@ class ToDictTestCase(testCase.TestCase):
                          'localNumber': '5551212'})
 
 
-
-"""
+  def testComplex(self):
     p = {'country':'USA',
          'areaCode': '212',
          'localNumber': '5551212'}
@@ -47,6 +46,15 @@ class ToDictTestCase(testCase.TestCase):
     m2 = {'category': 'VISA',
          'billingPhoneNumber': phone}
     pay = PaymentMethod.PaymentMethod(**m2)
+    d = modelDict.toDict(pay)
+    self.assertEqual(d, {'category': 'VISA',
+                         'billingPhoneNumber': {'areaCode': '212',
+                                                'country': 'USA',
+                                                'localNumber': '5551212'}})
+
+
+
+"""
 
     d = pay.to_dict()
     fixDict(d)
