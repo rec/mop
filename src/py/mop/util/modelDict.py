@@ -25,16 +25,16 @@ def toDict(model):
   return d
 
 
-def fromDict(model, json):
+def toModel(model, d):
   modelType = type(model)
-  for key, value in json.iteritems():
-    modelValue = value
+  for key, value in d.iteritems():
     modelProperty = getattr(modelType, key)
     if isinstance(modelProperty, ndb.StructuredProperty):
       modelValue = modelProperty._modelclass()
-      fromDict(modelValue, value)
+      toModel(modelValue, value)
+      value = modelValue
 
-    setattr(model, key, submodel)
+    setattr(model, key, value)
 
 
 """

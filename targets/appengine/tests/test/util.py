@@ -53,7 +53,15 @@ class ToDictTestCase(testCase.TestCase):
                                                 'localNumber': '5551212'}})
 
 
-
+class ToModelTestCase(testCase.TestCase):
+  def testSimple(self):
+    number = PhoneNumber.PhoneNumber()
+    modelDict.toModel(number, {'country':'USA',
+                         'areaCode': '212',
+                         'localNumber': '5551212'})
+    self.assertEqual(number, PhoneNumber.PhoneNumber(country='USA',
+                                                     areaCode='212',
+                                                     localNumber='5551212'))
 """
 
     d = pay.to_dict()
