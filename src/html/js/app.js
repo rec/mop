@@ -13,6 +13,19 @@ var ApplicationController = function() {
         break;
     };
   };
+  
+  this.initializePages = function() {
+    Pages.Start = $("#start");
+    Pages.Main = $("#main");
+    Pages.MissingPassword = $("#missing-password");
+    Pages.Locating = $("#locating");
+    Pages.Setting = $("#setting");
+    Pages.Payment = $("#payment");
+    Pages.Agreement = $("#agreement");
+    Pages.Waiting = $("#waiting");
+    Pages.Negotiate = $("#negotiate");
+    Pages.Delivered = $("#delivered");
+  };
 };
 
 var currentController = null;
@@ -33,14 +46,6 @@ window.addEventListener('load', function () {
 		document.addEventListener('deviceready', function () {
 		}, false);
 }, false);
-
-$("#map").live("pageinit", function(event) {
-	if (Application.currentUser.userState !== UserState.LOGGED_IN)
-		$.mobile.changePage("#start");
-	
-	var controller = new MapController();
-	controller.initializeView();
-});
 
 //Controller to handle the startup page
 var StartController = function() {
@@ -118,29 +123,6 @@ var MissingPasswordController = function() {
   }
 };
 
-var LocatingController = function() {
-	var self = this;
-  this.page = Pages.Locating;
-	this.mapCanvas = this.page.find("#map-canvas");
-	
-	this.initializeView = function() {		
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(self.centerMap, self.locatingError); 
-		} else {
-      alert("Can't get location");
-    }
-	};
-	
-	this.centerMap = function(position) {
-		var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-		self.mapCanvas.gmap({"center": pos});
-	};
-  
-  this.locatingError = function(msg) {
-    self.mapCanvas.html(typeof msg == 'string' ? msg : "failed");
-  };
-};
-
 var MainController = function() {
   var self = this;
   
@@ -170,16 +152,70 @@ var MainController = function() {
   };
 };
 
+var LocatingController = function() {
+  var self = this;
+  this.page = Pages.Locating;
+	this.mapCanvas = this.page.find("#map-canvas");
+	
+	this.initializeView = function() {		
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(self.centerMap, self.locatingError); 
+		} else {
+      alert("Can't get location");
+    }
+	};
+	
+	this.centerMap = function(position) {
+		var pos = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+		self.mapCanvas.gmap({"center": pos});
+	};
+  
+  this.locatingError = function(msg) {
+    self.mapCanvas.html(typeof msg == 'string' ? msg : "failed");
+  };
+};
+
+var SettingController = function() {
+  var self = this;
+	
+	this.page = Pages.Setting;
+};
+
+var PaymentController = function() {
+  var self = this;
+	
+	this.page = Pages.Payment;
+};
+
+var AgreementController = function() {
+  var self = this;
+	
+	this.page = Pages.Agreement;
+};
+
+var WaitingController = function() {
+  var self = this;
+	
+	this.page = Pages.Waiting;
+};
+
+var NegotiateController = function() {
+  var self = this;
+	
+	this.page = Pages.Negotiate;
+};
+
+var DeliveredController = function() {
+  var self = this;
+	
+	this.page = Pages.Delivered;
+};
+
 var Pages = {};
-$(document).ready(function() {
-  Pages.Start = $("#start");
-  Pages.Main = $("#main");
-  Pages.MissingPassword = $("#missing-password");
-  Pages.Locating = $("#locating");
-});
 
 $("#start").live("pageinit", function(event) {  
-  Pages.Start = $("#start");  
+  Application.initializePages();
+  
   if (Application.currentUser.userState === UserState.LOGGED_IN)
     $.mobile.changePage(Pages.Main);
 
@@ -188,7 +224,8 @@ $("#start").live("pageinit", function(event) {
 });
 
 $("#main").live("pageinit", function(event) {
-  Pages.Main = $("#main");
+  Application.initializePages();
+  
   if (Application.currentUser.userState !== UserState.LOGGED_IN)
     $.mobile.changePage(Pages.Start);
     
@@ -197,14 +234,79 @@ $("#main").live("pageinit", function(event) {
 });
 
 $("#missing-password").live("pageinit", function(event) {
-  Pages.MissingPassword = $("#missing-password");
+  Application.initializePages();
+  
   currentController = new MissingPasswordController();
   currentController.initializeView();
 });
 
 $("#locating").live("pageinit", function(event) {
-  Pages.Locating = $("#locating");
+  Application.initializePages();
+  
+  if (Application.currentUser.userState !== UserState.LOGGED_IN)
+    $.mobile.changePage(Pages.Start);
+    
   currentController = new LocatingController();
+  currentController.initializeView();
+});
+
+$("#setting").live("pageinit", function(event) {
+  Application.initializePages();
+  
+  if (Application.currentUser.userState !== UserState.LOGGED_IN)
+    $.mobile.changePage(Pages.Start);
+    
+  currentController = new SettingController();
+  currentController.initializeView();
+});
+
+$("#payment").live("pageinit", function(event) {
+  Application.initializePages();
+  
+  if (Application.currentUser.userState !== UserState.LOGGED_IN)
+    $.mobile.changePage(Pages.Start);
+    
+  currentController = new PaymentController();
+  currentController.initializeView();
+});
+
+$("#agreement").live("pageinit", function(event) {
+  Application.initializePages();
+  
+  if (Application.currentUser.userState !== UserState.LOGGED_IN)
+    $.mobile.changePage(Pages.Start);
+    
+  currentController = new AgreementController();
+  currentController.initializeView();
+});
+
+$("#waiting").live("pageinit", function(event) {
+  Application.initializePages();
+  
+  if (Application.currentUser.userState !== UserState.LOGGED_IN)
+    $.mobile.changePage(Pages.Start);
+    
+  currentController = new WaitingController();
+  currentController.initializeView();
+});
+
+$("#negotiate").live("pageinit", function(event) {
+  Application.initializePages();
+  
+  if (Application.currentUser.userState !== UserState.LOGGED_IN)
+    $.mobile.changePage(Pages.Start);
+    
+  currentController = new NegotiateController();
+  currentController.initializeView();
+});
+
+$("#delivered").live("pageinit", function(event) {
+  Application.initializePages();
+  
+  if (Application.currentUser.userState !== UserState.LOGGED_IN)
+    $.mobile.changePage(Pages.Start);
+    
+  currentController = new DeliveredController();
   currentController.initializeView();
 });
 
