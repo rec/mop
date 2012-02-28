@@ -8,6 +8,7 @@ from mop.model import Vehicle
 
 class Account(ndb.Model):
   id = ndb.IntegerProperty()
+
   googleAccountId = ndb.StringProperty()
   person = ndb.StructuredProperty(Person.Person, repeated=True)
   vehicle = ndb.StructuredProperty(Vehicle.Vehicle, repeated=True)

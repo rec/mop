@@ -9,17 +9,21 @@
   ],
 
   "pages": {
-    "login": [
+    "login": {
+      {"type": "title",
+       "caption": "Please log in!",
+      },
+
       {"type": "text",
        "name": "user name",
        "caption": "User name",
-       "default": "@email",
+       "value": "@email",
       },
 
       {"type": "password",
        "name": "password",
        "caption": "Password",
-       "default": "@password",
+       "value": "@password",
       },
 
       {"type": "button",
@@ -31,7 +35,10 @@
        "name": "missing password",
        "caption": "Click here to retrieve your password through email.",
       },
-    ],
+
+      {"type": "map",
+
+    },
 
     "start": [
       ...
