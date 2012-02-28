@@ -4,6 +4,8 @@ from mop.model import PhoneNumber
 from mop.model import PostalAddress
 
 class PaymentMethod(ndb.Model):
+  id = ndb.IntegerProperty()
+
   category = ndb.StringProperty()
   accountName = ndb.StringProperty()
   accountNumber = ndb.StringProperty()

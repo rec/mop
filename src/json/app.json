@@ -1,0 +1,40 @@
+{
+  "conditions": [
+    [{"login": "none"}, "register"],
+    [{"transaction": "none"}, "start"],
+    [{"transaction": "locating"}, "locating"],
+    [{"transaction": "setting"}, "setting"],
+    [{"payment": "none"}, "payment"],
+    ...
+  ],
+
+  "pages": {
+    "login": [
+      {"type": "text",
+       "name": "user name",
+       "caption": "User name",
+       "default": "@email",
+      },
+
+      {"type": "password",
+       "name": "password",
+       "caption": "Password",
+       "default": "@password",
+      },
+
+      {"type": "button",
+       "name": "ok",
+       "caption": "OK",
+      },
+
+      {"type": "button",
+       "name": "missing password",
+       "caption": "Click here to retrieve your password through email.",
+      },
+    ],
+
+    "start": [
+      ...
+    ],
+  },
+}

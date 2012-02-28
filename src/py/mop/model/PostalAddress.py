@@ -1,6 +1,8 @@
 from google.appengine.ext import ndb
 
 class PostalAddress(ndb.Model):
+  id = ndb.IntegerProperty()
+
   intro = ndb.StringProperty()  # c/o John Smith
   unitNumber = ndb.StringProperty()  # Room 5
   streetNumber = ndb.StringProperty()  # 1600
